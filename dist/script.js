@@ -34,12 +34,12 @@ function setup() {
 }
 
 function newParticle() {
-    console.log("newParticle", particles.length);
     particles.push(new Particle(lines[currentStartLine++]));
     if (currentStartLine >= numStartLines) currentStartLine = 0;
 }
 
 function draw() {
+    background(116, 126, 153);
 
     strokeWeight(2);
 
@@ -70,6 +70,7 @@ var Particle = function () {
 
         this.line = line;
         this.pos = new Point(line.p1.x, line.p1.y);
+        this.origin = new Point(line.p1.x, line.p1.y);
         this.target = new Point(line.p2.x, line.p2.y);
         this.dead = false;
     }
@@ -78,7 +79,8 @@ var Particle = function () {
         key: 'move',
         value: function move() {
             this.pos.moveTowards(this.target, speed);
-            ellipse(this.pos.x, this.pos.y, 2, 2);
+            stroke(255);
+            line(this.origin.x, this.origin.y, this.pos.x, this.pos.y);
             if (this.pos.hasReached(this.target)) {
                 var old = new ColorLine(this.line);
                 this.findNewTarget();
@@ -102,6 +104,7 @@ var Particle = function () {
 
             var randomLine = targets[Math.floor(Math.random() * targets.length)];
             this.line = randomLine;
+            this.origin.x = this.pos.x;this.origin.y = this.pos.y;
             if (randomLine.p1.matches(this.target)) this.target = randomLine.p2;else this.target = randomLine.p1;
         }
     }]);
@@ -201,7 +204,7 @@ var ColorLine = function () {
     _createClass(ColorLine, [{
         key: 'draw',
         value: function draw() {
-            stroke(116, 126, 153, 255 - Math.min(255, this.age));
+            stroke(255, 255, 255, Math.min(255, this.age));
             line(this.line.p1.x, this.line.p1.y, this.line.p2.x, this.line.p2.y);
             this.age--;
         }
