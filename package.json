@@ -1,0 +1,25 @@
+{
+  "name": "nachtlab2018",
+  "version": "2018.0.1",
+  "description": "An animated logo for CMD Nachtlab 2018",
+  "main": "index.js",
+  "scripts": {
+    "http-server": "http-server dist",
+    "babel": "babel src -d dist --watch",
+    "start": "npm-run-all --parallel http-server babel"
+  },
+  "keywords": [
+    "p5.js",
+    "animated",
+    "logo"
+  ],
+  "author": "Hans van Arken <hansvanarken@gmail.com> (http://mouseover.nl)",
+  "license": "CC-BY-4.0",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "browser-sync": "^2.23.6",
+    "http-server": "^0.11.1",
+    "npm-run-all": "^4.1.2"
+  }
+}
