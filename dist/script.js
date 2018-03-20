@@ -8,21 +8,21 @@ var xml = void 0;
 var lines = [];
 var particles = [],
     colorLines = [];
-var speed = 1;
-var numParticles = 100;
+var speed = 2;
+var numParticles = 200;
 var numStartLines = 12;
 var currentStartLine = 0;
 var p = void 0;
 
 function preload() {
-    xml = loadXML('achtergrond.svg');
+    xml = loadXML('achtergrond2.svg');
 }
 
 function setup() {
     createCanvas(1920, 1080);
     var children = xml.getChildren('line');
     children.forEach(function (child) {
-        lines.push(new Line(parseFloat(child.attributes.x1), parseFloat(child.attributes.y1), parseFloat(child.attributes.x2), parseFloat(child.attributes.y2), child.attributes.class == "st1"));
+        lines.push(new Line(parseFloat(child.attributes.x1), parseFloat(child.attributes.y1), parseFloat(child.attributes.x2), parseFloat(child.attributes.y2), child.attributes.stroke == "#FA110D"));
     });
     for (var i = 0; i < numParticles; i++) {
         newParticle();
@@ -49,6 +49,7 @@ function draw() {
     colorLines = colorLines.filter(function (c) {
         return c.age > 0;
     });
+    console.log(particles.length);
     particles.forEach(function (p) {
         var m = p.move();
         if (m) colorLines.push(m);
@@ -79,6 +80,8 @@ var Particle = function () {
         key: 'move',
         value: function move() {
             this.pos.moveTowards(this.target, speed);
+            //fill(255,0,0);
+            //ellipse(this.pos.x, this.pos.y, 4, 4);
             stroke(255);
             line(this.origin.x, this.origin.y, this.pos.x, this.pos.y);
             if (this.pos.hasReached(this.target)) {
@@ -119,7 +122,7 @@ var Line = function () {
         if (arguments[0] instanceof Line) {
             this.p1 = new Point(arguments[0].p1.x, arguments[0].p1.y);
             this.p2 = new Point(arguments[0].p2.x, arguments[0].p2.y);
-            this.isSpecial = arguments[1];
+            this.isSpecial = arguments[0].isSpecial;
         } else if (arguments[0] instanceof Point && arguments[1] instanceof Point) {
             this.p1 = new Point(arguments[0].x, arguments[0].y);
             this.p2 = new Point(arguments[1].x, arguments[1].y);
@@ -198,15 +201,15 @@ var ColorLine = function () {
         _classCallCheck(this, ColorLine);
 
         this.line = new Line(line);
-        this.age = 3000;
+        this.age = 255;
     }
 
     _createClass(ColorLine, [{
         key: 'draw',
         value: function draw() {
-            stroke(255, 255, 255, Math.min(255, this.age));
+            stroke(255, 255, 255, this.age);
             line(this.line.p1.x, this.line.p1.y, this.line.p2.x, this.line.p2.y);
-            this.age--;
+            this.age -= 0.5;
         }
     }]);
 

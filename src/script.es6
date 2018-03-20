@@ -1,14 +1,14 @@
 let xml;
 const lines = [];
 let particles = [], colorLines = [];
-const speed = 1;
-const numParticles = 100;
+const speed = 2;
+const numParticles = 200;
 const numStartLines = 12;
 let currentStartLine = 0;
 let p;
 
 function preload() {
-    xml = loadXML('achtergrond.svg');
+    xml = loadXML('achtergrond2.svg');
 }
 
 function setup() {
@@ -20,7 +20,7 @@ function setup() {
             parseFloat(child.attributes.y1),
             parseFloat(child.attributes.x2),
             parseFloat(child.attributes.y2),
-            child.attributes.class == "st1"
+            child.attributes.stroke == "#FA110D"
         ));
     });
     for (let i = 0; i < numParticles; i++){
@@ -48,6 +48,7 @@ function draw() {
     colorLines = colorLines.filter(c => {
         return c.age > 0;
     });
+    console.log(particles.length);
     particles.forEach(p => {
         let m = p.move();
         if (m) colorLines.push(m);      
@@ -73,6 +74,8 @@ class Particle {
 
     move() {
         this.pos.moveTowards(this.target, speed);
+        //fill(255,0,0);
+        //ellipse(this.pos.x, this.pos.y, 4, 4);
         stroke(255);
         line(this.origin.x, this.origin.y, this.pos.x, this.pos.y);
         if (this.pos.hasReached(this.target)){
@@ -111,7 +114,7 @@ class Line {
         if (arguments[0] instanceof Line){
             this.p1 = new Point(arguments[0].p1.x, arguments[0].p1.y);
             this.p2 = new Point(arguments[0].p2.x, arguments[0].p2.y);
-            this.isSpecial = arguments[1];
+            this.isSpecial = arguments[0].isSpecial;
         } else if (arguments[0] instanceof Point && arguments[1] instanceof Point){
             this.p1 = new Point(arguments[0].x, arguments[0].y);
             this.p2 = new Point(arguments[1].x, arguments[1].y);
@@ -176,12 +179,12 @@ class Point {
 class ColorLine {
     constructor(line) {
         this.line = new Line(line);
-        this.age = 3000;
+        this.age = 255;
     }
 
     draw() {
-        stroke(255,255,255,Math.min(255,this.age));
+        stroke(255,255,255,this.age);
         line(this.line.p1.x, this.line.p1.y,this.line.p2.x, this.line.p2.y);
-        this.age--;
+        this.age-=0.5;
     }
 }
