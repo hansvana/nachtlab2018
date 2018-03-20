@@ -48,7 +48,7 @@ function draw() {
     colorLines = colorLines.filter(c => {
         return c.age > 0;
     });
-    console.log(particles.length);
+    //console.log(particles.length);
     particles.forEach(p => {
         let m = p.move();
         if (m) colorLines.push(m);      
@@ -74,8 +74,8 @@ class Particle {
 
     move() {
         this.pos.moveTowards(this.target, speed);
-        //fill(255,0,0);
-        //ellipse(this.pos.x, this.pos.y, 4, 4);
+        // fill(255,0,0);
+        // ellipse(this.pos.x, this.pos.y, 4, 4);
         stroke(255);
         line(this.origin.x, this.origin.y, this.pos.x, this.pos.y);
         if (this.pos.hasReached(this.target)){
@@ -96,7 +96,7 @@ class Particle {
         })
 
         if (targets.length === 0) {
-            console.log("death");
+            //console.log("death");
             this.dead = true;
             return;
         }
@@ -127,11 +127,11 @@ class Line {
     }
 
     equals(line) {
-        return 
+        return
             this.p1.x === line.p1.x &&
             this.p1.y === line.p1.y &&
             this.p2.x === line.p2.x &&
-            this.p2.y === line.p2.y
+            this.p2.y === line.p2.y;
     }
 }
 
@@ -188,3 +188,7 @@ class ColorLine {
         this.age-=0.5;
     }
 }
+
+window.setTimeout(()=>{
+    location.reload();
+}, 900000)

@@ -49,7 +49,7 @@ function draw() {
     colorLines = colorLines.filter(function (c) {
         return c.age > 0;
     });
-    console.log(particles.length);
+    //console.log(particles.length);
     particles.forEach(function (p) {
         var m = p.move();
         if (m) colorLines.push(m);
@@ -80,8 +80,8 @@ var Particle = function () {
         key: 'move',
         value: function move() {
             this.pos.moveTowards(this.target, speed);
-            //fill(255,0,0);
-            //ellipse(this.pos.x, this.pos.y, 4, 4);
+            // fill(255,0,0);
+            // ellipse(this.pos.x, this.pos.y, 4, 4);
             stroke(255);
             line(this.origin.x, this.origin.y, this.pos.x, this.pos.y);
             if (this.pos.hasReached(this.target)) {
@@ -100,7 +100,7 @@ var Particle = function () {
             });
 
             if (targets.length === 0) {
-                console.log("death");
+                //console.log("death");
                 this.dead = true;
                 return;
             }
@@ -215,3 +215,7 @@ var ColorLine = function () {
 
     return ColorLine;
 }();
+
+window.setTimeout(function () {
+    location.reload();
+}, 900000);
